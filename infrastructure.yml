@@ -5,3 +5,10 @@
 #    - secrets.yml
   roles:
     - role: loadbalancer
+
+ - name: infrastructure db
+   hosts: db
+ #  vars_files:
+ #    - secrets.yml
+   roles:
+     - role: database
