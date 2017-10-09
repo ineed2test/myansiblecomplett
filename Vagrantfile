@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    web.vm.network "public_network", ip: "192.168.1.101, bridge: "eth1"
+    web.vm.network "public_network", ip: "192.168.1.101", bridge: "eth1"
 
     # If true, then any SSH connections made will enable agent forwarding.
     web.ssh.forward_agent = true
