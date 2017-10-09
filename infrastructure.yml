@@ -6,9 +6,9 @@
   roles:
     - role: loadbalancer
 
- - name: infrastructure db
-   hosts: db
+- name: infrastructure db
+  hosts: db
  #  vars_files:
  #    - secrets.yml
-   roles:
-     - role: database
+  roles:
+    - role: database
