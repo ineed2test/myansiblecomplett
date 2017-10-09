@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'web' do |web|
 
     # Every Vagrant virtual environment requires a box to build off of.
-    web.vm.box = "ubuntu/trusty64"
+    web.vm.box = "debian/jessie64"
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
@@ -54,6 +54,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #      ansible.limit = 'all'
 #      ansible.playbook = "mezzanine-across-hosts.yml"
 #    end
+
+    Vagrant.configure('2') do |config|
+      config.vm.box = 'debian/jessie64'
+      config.disksize.size = '10GB'
+    end
 
   end
 
