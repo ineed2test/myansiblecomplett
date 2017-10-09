@@ -4,6 +4,7 @@
 #  vars_files:
 #    - secrets.yml
   roles:
+    - role: ssh
     - role: loadbalancer
 
 - name: infrastructure db
@@ -11,4 +12,5 @@
  #  vars_files:
  #    - secrets.yml
   roles:
+    - role: ssh
     - role: database
