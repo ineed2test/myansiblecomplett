@@ -7,6 +7,7 @@
     state=present
     createhome=yes
     groups=sudo
+    shell=/bin/bash
 
 - name: Set authorized key took from file
   sudo: True
