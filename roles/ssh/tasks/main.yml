@@ -1,6 +1,5 @@
 ---
 
-- hosts: all
   sudo: True
   tasks:
     - name: Create new sudo user (admin)
