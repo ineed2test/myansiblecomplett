@@ -1,2 +1,12 @@
+[staging]
 db ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
 web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
+
+[lb]
+web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
+
+[web]
+web ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
+
+[db]
+db ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
