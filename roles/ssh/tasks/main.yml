@@ -14,7 +14,8 @@
   authorized_key:
     user: kundea
     state: present
-    key: "{{ lookup('file', '/home/ulinux/.ssh/id_rsa.pub') }}"
+#    key: "{{ lookup('file', '/home/ulinux/.ssh/id_rsa.pub') }}"
+    key: "{{ kundea_ssh_key }}"
 
 - name: Allow 'sudo' group to have passwordless sudo
   sudo: True
