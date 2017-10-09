@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'db' do |db|
 
     # Every Vagrant virtual environment requires a box to build off of.
-    db.vm.box = "ubuntu/trusty64"
+    db.vm.box = "debian/jessie64"
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
@@ -26,6 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 # cannot resize disk https://tuhrig.de/resizing-vagrant-box-disk-space/
 #      vb.customize ["modifyhd", "disk id", "--resize", "10000"]
     end
+
+    Vagrant.configure('2') do |config|
+      config.vm.box = 'debian/jessie64'
+      config.disksize.size = '10GB'
+    end
   end
 
   config.vm.define 'web' do |web|
@@ -35,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    web.vm.network "public_network", ip: "192.168.1.101"
+    web.vm.network "public_network", ip: "192.168.1.101, bridge: "eth1"
 
     # If true, then any SSH connections made will enable agent forwarding.
     web.ssh.forward_agent = true
