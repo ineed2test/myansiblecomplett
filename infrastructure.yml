@@ -1,7 +1,7 @@
 ---
 - name: infrastructure lb
   hosts: lb
-  vars_files:
-    - secrets.yml
+#  vars_files:
+#    - secrets.yml
   roles:
     - role: loadbalancer
