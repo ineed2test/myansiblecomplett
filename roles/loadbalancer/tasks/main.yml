@@ -6,7 +6,9 @@
     - haproxy
 
 - name: create mycert directory
+  sudo: True
   file: path=/etc/ssl/mycerts state=directory
+  notify: restart nginx
 
 - name: kundea copy ssl certs + key
   sudo: True
