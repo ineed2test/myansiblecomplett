@@ -45,7 +45,7 @@
 
 - name: enable apache nodules
   apache2_module: state=present name={{ item }}
-    with_items:
-      - jk
-      - rewrite
-      - security2
+  with_items:
+    - jk
+    - rewrite
+    - security2
