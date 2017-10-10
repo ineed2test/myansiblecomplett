@@ -43,9 +43,10 @@
     line: ' JkWorkersFile /etc/libapache2-mod-jk/workers.properties'
   notify: restart apache
 
-- apache2_module:
+- name: enable apache nodules
+  apache2_module:
     state: present
-    name={{ item }}
+    name: {{ item }}
     with_items:
       - jk
       - rewrite
