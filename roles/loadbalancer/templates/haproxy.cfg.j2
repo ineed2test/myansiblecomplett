@@ -45,7 +45,7 @@ frontend web0
   use_backend  web0
 
 listen stats
-  bind 192.168.1.10:9000
+  bind {{ "ansible_eth1.ipv4.address" }}:9000
   mode  http
   stats  enable
   stats  uri /haproxy_stats
