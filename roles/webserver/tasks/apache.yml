@@ -36,11 +36,12 @@
 
 - name: insert line in jk.conf
   sudo: True
-- lineinline:
+  lineinline:
     path: /etc/apache2/mod-available/jk.conf
     regexp: '<IfModule jk_module>'
     insertafter: '<IfModule jk_module>'
     line: ' JkWorkersFile /etc/libapache2-mod-jk/workers.properties'
+    state: present
   notify: restart apache
 
 - name: enable apache nodules
@@ -49,3 +50,4 @@
     - jk
     - rewrite
     - security2
+  notify: restart apache
