@@ -3,7 +3,7 @@
   apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
   sudo: True
   with_items:
-    - apache
+    - apache2
     - libapache2-mod-jk
 
 - name: copy vhost template 25-www.kundea.local.conf.j2 to sites-available
