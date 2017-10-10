@@ -1,4 +1,4 @@
 ---
-- name: restart nginx
-  service: name=nginx state=restarted
+- name: restart haproxy
+  service: name=haproxy state=restarted
   sudo: True

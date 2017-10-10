@@ -8,7 +8,7 @@
 - name: create mycert directory
   sudo: True
   file: path=/etc/ssl/mycerts state=directory
-  notify: restart nginx
+  notify: restart haproxy
 
 - name: kundea copy ssl certs + key
   sudo: True
@@ -18,7 +18,7 @@
     owner: root
     group: root
     mode: 0600
-  notify: restart nginx
+  notify: restart haproxy
 
 - name: kundeb copy ssl certs + key
   sudo: True
@@ -28,11 +28,11 @@
     owner: root
     group: root
     mode: 0600
-  notify: restart nginx
+  notify: restart haproxy
 
 - name: copy haproxy.cfg from template
   sudo: True
   template:
     src: templates/haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
-  notify: restart nginx
+  notify: restart haproxy
