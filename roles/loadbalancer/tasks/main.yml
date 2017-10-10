@@ -10,15 +10,18 @@
   file:
     src: /home/ulinux/data/myansiblecomplett/cert/www.kundeacombinedwithkey.pem
     dest: /etc/ssl/mycerts/www.kundeacombinedwithkey.pem
+  notify: restart nginx
 
 - name: kundeb copy ssl certs + key
   sudo: True
   file:
     src: /home/ulinux/data/myansiblecomplett/cert/www.kundebcombinedwithkey.pem
     dest: /etc/ssl/mycerts/www.kundebcombinedwithkey.pem
+  notify: restart nginx
 
 - name: copy haproxy.cfg from template
   sudo: True
   template:
     src: templates/haproxy.cfg.j2
     dest: /ets/haproxy/haproxy.cfg
+  notify: restart nginx
