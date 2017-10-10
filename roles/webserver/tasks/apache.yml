@@ -45,7 +45,7 @@
 
 - apache2_module:
     state: present
-    name: {{ items }}
+    name={{ item }}
     with_items:
       - jk
       - rewrite
