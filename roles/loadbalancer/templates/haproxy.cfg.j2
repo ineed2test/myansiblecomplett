@@ -1,0 +1,63 @@
+# This file managed by Puppet
+global
+  chroot  /var/lib/haproxy
+  daemon
+  group  haproxy
+  log  /var/log local0 debug
+  maxconn  4006
+  pidfile  /var/run/haproxy.pid
+  ssl-default-bind-ciphers  ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
+  ssl-default-bind-options  no-sslv3 no-tlsv10
+  stats  socket /var/lib/haproxy/stats mode 0777 level operator
+  tune.bufsize  65536
+  tune.ssl.default-dh-param  2048
+  user  haproxy
+
+defaults
+  log  global
+  maxconn  80076
+  option  redispatch
+  retries  3
+  stats  enable
+  timeout  connect 10s
+  timeout  http-request 10s
+  timeout  queue 1m
+  timeout  client 1m
+  timeout  server 1m
+  timeout  check 10s
+
+frontend web0
+  bind 0.0.0.0:443 ssl crt /etc/ssl/mycerts/www.kundeacombinedwithkey.pem crt /etc/ssl/mycerts/www.kundebcombinedwithkey.pem
+  bind 0.0.0.0:80
+  mode  http
+  acl  exampleIP src 193.19.36.0/24
+  balance  leastconn
+  errorfile  400 /var/loadbalancer_maintenance/index.html
+  errorfile  403 /var/loadbalancer_maintenance/index.html
+  errorfile  408 /var/loadbalancer_maintenance/index.html
+  errorfile  500 /var/loadbalancer_maintenance/index.html
+  errorfile  502 /var/loadbalancer_maintenance/index.html
+  errorfile  503 /var/loadbalancer_maintenance/index.html
+  errorfile  504 /var/loadbalancer_maintenance/index.html
+  http-request  deny if exampleIP
+  option  httplog
+  stick-table  type string len 16 size 5000k expire 300000
+  use_backend  web0
+
+listen stats
+  bind 192.168.1.10:9000
+  mode  http
+  stats  enable
+  stats  uri /haproxy_stats
+  stats  auth dreck:blah
+
+backend web0
+  balance  roundrobin
+  cookie  ServerID insert nocache indirect
+  http-request  add-header X-Forwarded-Proto https if { ssl_fc }
+  http-request  add-header X-Forwarded-Proto http if !{ ssl_fc }
+  mode  http
+  option  httpchk HEAD /html/index.html HTTP/1.0\r\nHost:\ www.kundea.local:81
+  option  forwardfor
+  server  web01 192.168.1.10:81 check cookie web01
+  server  web02 192.168.1.12:81 check cookie web02
