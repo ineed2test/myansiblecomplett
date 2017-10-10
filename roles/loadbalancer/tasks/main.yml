@@ -30,6 +30,13 @@
     mode: 0600
   notify: restart haproxy
 
+- name: copy error page file
+  sudo: True
+  copy:
+    src: /home/ulinux/data/myansiblecomplett/roles/loadbalancer/files/index.html
+    dest: /var/loadbalancer_maintenance/index.html
+  notify: restart haproxy
+
 - name: copy haproxy.cfg from template
   sudo: True
   template:
