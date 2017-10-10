@@ -1,2 +1,2 @@
 ---
-include: apache.yml
+- include: apache.yml
