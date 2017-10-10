@@ -6,6 +6,7 @@
   roles:
     - role: ssh
     - role: loadbalancer
+    - role: webserver
 
 - name: infrastructure db
   hosts: db
