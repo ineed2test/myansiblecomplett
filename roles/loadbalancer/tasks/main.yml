@@ -10,6 +10,11 @@
   file: path=/etc/ssl/mycerts state=directory
   notify: restart haproxy
 
+ - name: create loadbalancer_maintenance directory
+   sudo: True
+   file: path=/var/loadbalancer_maintenance state=directory
+   notify: restart haproxy
+
 - name: kundea copy ssl certs + key
   sudo: True
   copy:
