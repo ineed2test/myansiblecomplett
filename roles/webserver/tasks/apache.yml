@@ -9,8 +9,8 @@
 - name: copy vhost template 25-www.kundea.local.conf.j2 to sites-available
   sudo: True
   template:
-    src: files/25-www.kundea.local
-    dest: /etc/apache2/sites-available/25-www.kundea.local.conf.j2
+    src: files/25-www.kundea.local.conf.j2
+    dest: /etc/apache2/sites-available/25-www.kundea.local.conf
   notify: restart apache
 
 - name: enable site www.kundea.local per link
