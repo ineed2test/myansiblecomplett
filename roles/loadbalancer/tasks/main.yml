@@ -34,5 +34,5 @@
   sudo: True
   template:
     src: templates/haproxy.cfg.j2
-    dest: /ets/haproxy/haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
   notify: restart nginx
