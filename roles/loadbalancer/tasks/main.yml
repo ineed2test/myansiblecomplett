@@ -12,16 +12,22 @@
 
 - name: kundea copy ssl certs + key
   sudo: True
-  file:
+  copy:
     src: /home/ulinux/data/myansiblecomplett/cert/www.kundeacombinedwithkey.pem
     dest: /etc/ssl/mycerts/www.kundeacombinedwithkey.pem
+    owner: root
+    group: root
+    mode: 0600
   notify: restart nginx
 
 - name: kundeb copy ssl certs + key
   sudo: True
-  file:
+  copy:
     src: /home/ulinux/data/myansiblecomplett/cert/www.kundebcombinedwithkey.pem
     dest: /etc/ssl/mycerts/www.kundebcombinedwithkey.pem
+    owner: root
+    group: root
+    mode: 0600
   notify: restart nginx
 
 - name: copy haproxy.cfg from template
