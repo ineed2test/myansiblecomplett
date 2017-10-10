@@ -27,22 +27,22 @@
     src:  files/workers.properties.j2
     dest: /etc/libapache2-mod-jk/workers.properties
 
-#- name: copy mod_jk template
-#  sudo: True
-#  template:
-#    src:  files/jk.conf.j2
-#    dest: /etc/apache2/mod-available/jk.conf
-#  notify: restart apache
-
-- name: insert line in jk.conf
+- name: copy mod_jk template
   sudo: True
-  lineinline:
-    path: /etc/apache2/mod-available/jk.conf
-    regexp: '<IfModule jk_module>'
-    insertafter: '<IfModule jk_module>'
-    line: ' JkWorkersFile /etc/libapache2-mod-jk/workers.properties'
-    state: present
+  template:
+    src:  files/jk.conf.j2
+    dest: /etc/apache2/mod-available/jk.conf
   notify: restart apache
+
+#- name: insert line in jk.conf
+#  sudo: True
+#  lineinline:
+#    path: /etc/apache2/mod-available/jk.conf
+#    regexp: '<IfModule jk_module>'
+#    insertafter: '<IfModule jk_module>'
+#    line: ' JkWorkersFile /etc/libapache2-mod-jk/workers.properties'
+#    state: present
+#  notify: restart apache
 
 - name: enable apache nodules
   apache2_module: state=present name={{ item }}
