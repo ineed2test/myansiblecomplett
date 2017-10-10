@@ -1,10 +1,10 @@
 ---
 - name: install apache + mod_jk per apt
   apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
-    sudo: True
-    with_items:
-      - apache
-      - libapache2-mod-jk
+  sudo: True
+  with_items:
+    - apache
+    - libapache2-mod-jk
 
 - name: copy vhost template 25-www.kundea.local.conf.j2 to sites-available
   sudo: True
