@@ -1,0 +1,52 @@
+---
+- name: install apache + mod_jk per apt
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+    sudo: True
+    with_items:
+      - apache
+      - libapache2-mod-jk
+
+- name: copy vhost template 25-www.kundea.local.conf.j2 to sites-available
+  sudo: True
+  template:
+    src: files/25-www.kundea.local
+    dest: /etc/apache2/sites-available/25-www.kundea.local.conf.j2
+  notify: restart apache
+
+- name: enable site www.kundea.local per link
+  sudo: True
+  file:
+    src: /etc/apache2/sites-available/25-www.kundea.local.conf
+    dest: /etc/apache2/sites-enabled/25-www.kundea.local.conf
+    state: link
+  notify: restart apache
+
+- name: copy workers.properties template
+  sudo: True
+  template:
+    src:  files/workers.properties.j2
+    dest: /etc/libapache2-mod-jk/workers.properties
+
+#- name: copy mod_jk template
+#  sudo: True
+#  template:
+#    src:  files/jk.conf.j2
+#    dest: /etc/apache2/mod-available/jk.conf
+#  notify: restart apache
+
+- name: insert line in jk.conf
+  sudo: True
+- lineinline:
+    path: /etc/apache2/mod-available/jk.conf
+    regexp: '<IfModule jk_module>'
+    insertafter: '<IfModule jk_module>'
+    line: ' JkWorkersFile /etc/libapache2-mod-jk/workers.properties'
+  notify: restart apache
+
+ - apache2_module:
+     state: present
+     name: {{ item }}
+     with_items:
+       - jk
+       - rewrite
+       - security2

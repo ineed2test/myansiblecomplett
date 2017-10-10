@@ -1,0 +1,40 @@
+<VirtualHost *:81>
+  ServerName www.kundea.local
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/"
+  ## Alias declarations for resources outside the DocumentRoot
+  Alias /media/foto "/home/kundea/upload/foto"
+  Alias /media/docs "/home/kundea/upload/docs"
+
+  ## Directories, there should at least be a declaration for /var/www/
+
+  <Directory "/var/www/">
+    Options -Indexes -FollowSymLinks -MultiViews
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ## Logging
+  ErrorLog "/var/log/apache2/www.kundea.local_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/apache2/www.kundea.local_access.log" combined
+  ## Rewrite rules
+  RewriteEngine On
+
+  RewriteCond %{HTTP:X-Forwarded-Proto} ^http$
+  RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
+
+  RewriteCond %{HTTP:X-Forwarded-Proto} ^http$
+  RewriteRule ^(.*)$ https://m.kundea.de/kundea/mobile$1 [R=301,L]
+
+
+  ## Server aliases
+  ServerAlias m.kundea.local
+
+  JkMount   /kundea workerkundea
+  JkMount   /kundea/* workerkundea
+  JkUnMount /kundea/css/* workerkundea
+  JkMount   /examples workerkundea
+  JkMount   /examples/* workerkundea
+</VirtualHost>
